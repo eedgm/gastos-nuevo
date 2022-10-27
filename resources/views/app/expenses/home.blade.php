@@ -159,10 +159,10 @@
                                     user: result[p].user,
                                     assign: result[p].assign,
                                     budget: result[p].budget,
-                                    budget_text: '$'+result[p].budget,
+                                    budget_text: '$ '+result[p].budget,
                                     executeds: result[p].executed,
                                     total: result[p].total,
-                                    total_text: '$'+result[p].total
+                                    total_text: '$ '+result[p].total
                                 }]
 
                         }

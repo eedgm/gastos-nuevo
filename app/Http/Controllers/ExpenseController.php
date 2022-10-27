@@ -61,7 +61,7 @@ class ExpenseController extends Controller
             $expenses[$result->id]['budget'] = $result->budget ?? '-';
             $total = 0;
             foreach ($result->executeds as $executed) {
-                $expenses[$result->id]['executed'][$executed->type->object_name] = '$'.$executed->cost;
+                $expenses[$result->id]['executed'][$executed->type->object_name] = isset($expenses[$result->id]['executed'][$executed->type->object_name]) ? $expenses[$result->id]['executed'][$executed->type->object_name] + $executed->cost : $executed->cost;
                 $total += $executed->cost;
             }
             $expenses[$result->id]['total'] = $total;

@@ -31,6 +31,7 @@ class ExpenseStoreRequest extends FormRequest
             'cluster_id' => ['required', 'exists:clusters,id'],
             'assign_id' => ['required', 'exists:assigns,id'],
             'account_id' => ['required', 'exists:accounts,id'],
+            'google_calendar' => ['nullable', 'boolean'],
         ];
     }
 }

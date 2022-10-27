@@ -90,8 +90,17 @@
                     </template>
                 </x-inputs.select>
             </x-inputs.group>
+            <div class="flex w-full mt-1 ml-5 ">
+                <input
+                    class="mt-1 mr-3"
+                    type="checkbox"
+                    id="google_calendar"
+                    x-model="event_object.google_calendar"
+                >
+                <label for="google_calendar">Publicar en Google Calendar?</label>
+            </div>
 
-            <div class="flex w-full mt-5 ml-5 ">
+            <div class="flex w-full mt-3 ml-5 ">
                 <div class="w-4/12 mt-3">Gastos <i class="bx " :class="{'bx-hide' : addGastos, 'bx-plus' : !addGastos}" x-on:click="addGastos = !addGastos"></i></div>
                 <div class="flex w-8/12" x-show="addGastos">
                     <x-inputs.group class="w-full lg:w-4/12">

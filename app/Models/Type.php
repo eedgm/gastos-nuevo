@@ -13,7 +13,7 @@ class Type extends Model
     use Searchable;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'object_name'];
 
     protected $searchableFields = ['*'];
 

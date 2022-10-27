@@ -80,6 +80,7 @@ class EventsController extends Controller
             $events['events'][$r->id]['assign'] = $r->assign_id;
             $events['events'][$r->id]['account'] = $r->account_id;
             $events['events'][$r->id]['user'] = $r->user_id;
+            $events['events'][$r->id]['google_calendar'] = $r->google_id ? true : false;
 
             if ($r->purposes) {
                 foreach($r->purposes as $purpose) {
@@ -112,19 +113,23 @@ class EventsController extends Controller
         $user_obj = Auth::user();
         $request['user_id'] = $user_obj->id;
 
-        $cluster = Cluster::where('id', $request->cluster_id)->first();
+        $google_id = null;
 
-        $startDate = Carbon::parse($request->date);
-        $endDate = $request->date_to ? Carbon::parse($request->date_to) : (clone $startDate)->addHour();
-        config(['google-calendar.calendar_id' => Auth::user()->google_calendar_id]);
-        $event = new Event;
-        $event->name = $request->description;
-        $event->startDateTime = $startDate;
-        $event->endDateTime = $endDate;
-        $event->location = $cluster->name;
+        if ($request->google_calendar) {
+            $cluster = Cluster::where('id', $request->cluster_id)->first();
 
-        $new_event = $event->save();
-        $google_id = $new_event->id;
+            $startDate = Carbon::parse($request->date);
+            $endDate = $request->date_to ? Carbon::parse($request->date_to) : (clone $startDate)->addHour();
+            config(['google-calendar.calendar_id' => Auth::user()->google_calendar_id]);
+            $event = new Event;
+            $event->name = $request->description;
+            $event->startDateTime = $startDate;
+            $event->endDateTime = $endDate;
+            $event->location = $cluster->name;
+
+            $new_event = $event->save();
+            $google_id = $new_event->id;
+        }
 
         $validated = $request->validated();
         $validated['google_id'] = $google_id;
@@ -141,17 +146,19 @@ class EventsController extends Controller
         $cluster = Cluster::where('id', $request->cluster_id)->first();
 
         if ($expense->google_id == null || $expense->google_id == '') {
-            $startDate = Carbon::parse($request->date);
-            $endDate = $request->date_to ? Carbon::parse($request->date_to) : (clone $startDate)->addHour();
-            config(['google-calendar.calendar_id' => Auth::user()->google_calendar_id]);
-            $event = new Event;
-            $event->name = $expense->description;
-            $event->startDateTime = $startDate;
-            $event->endDateTime = $endDate;
-            $event->location = $cluster->name;
+            if ($request->google_calendar) {
+                $startDate = Carbon::parse($request->date);
+                $endDate = $request->date_to ? Carbon::parse($request->date_to) : (clone $startDate)->addHour();
+                config(['google-calendar.calendar_id' => Auth::user()->google_calendar_id]);
+                $event = new Event;
+                $event->name = $expense->description;
+                $event->startDateTime = $startDate;
+                $event->endDateTime = $endDate;
+                $event->location = $cluster->name;
 
-            $new_event = $event->save();
-            $google_id = $new_event->id;
+                $new_event = $event->save();
+                $google_id = $new_event->id;
+            }
         } else {
             config(['google-calendar.calendar_id' => Auth::user()->google_calendar_id]);
             $event = Event::find($google_id);

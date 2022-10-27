@@ -132,7 +132,8 @@
                 account_id: '',
                 budget: '',
                 _token : this.token,
-                user_id: ''
+                user_id: '',
+                google_calendar: '',
             },
             expense_object: {
                 id: '',
@@ -176,7 +177,8 @@
                         purpose_id: event.purpose_id,
                         account_id: event.account_id,
                         budget: event.budget,
-                        user_id: event.user_id
+                        user_id: event.user_id,
+                        google_calendar: event.google_calendar,
                     }
 
                     fetch('/events/executeds/'+id)
@@ -235,9 +237,12 @@
                             purpose_id: result.events[p].purpose_id,
                             budget: result.events[p].budget,
                             account_id: result.events[p].account,
-                            user_id: result.events[p].user
+                            user_id: result.events[p].user,
+                            google_calendar: result.events[p].google_calendar
                         }]
                     }
+
+                    console.table(this.events)
 
                     this.clusters = result.clusters
                     this.assigns = result.assigns
