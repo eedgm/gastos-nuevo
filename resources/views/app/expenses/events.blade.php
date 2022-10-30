@@ -160,13 +160,13 @@
 
                 this.openEventModal = true;
                 this.refreshGastos()
+                this.executeds = []
                 // this.event_object.date = new Date(this.year, this.month, date).toDateString();
                 if (id) {
                     this.update = true
                     let event = this.events.find(e => (e.id === id))
                     this.title_events = 'Actualizar evento'
                     this.button_text = 'Actualizar Evento'
-                    this.executeds = []
                     this.event_object = {
                         id: event.id,
                         date: this.getFormattedDate(event.date),

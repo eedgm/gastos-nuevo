@@ -2,7 +2,7 @@
     <div class="flex items-center justify-center bg-white">
         <div class="flex items-center ">
             <a href="{{ route('dashboard') }}">
-                Gastos
+                <img src="/storage/servicio.svg" alt="" class="w-32 h-auto">
             </a>
         </div>
         <button @click="sidebarOpen = true" class="ml-5 text-gray-500 focus:outline-none">

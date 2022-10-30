@@ -47,7 +47,7 @@
                 <table class="w-full bg-white divide-y divide-gray-200 table-auto">
                     <thead class="">
                         <tr>
-                            <th colspan="7"></th>
+                            <th colspan="8"></th>
                             <th class="text-white bg-gray-800" colspan="{{ count($types) }}">
                                 Gastos
                             </th>
@@ -78,6 +78,7 @@
                             <th class="px-4 py-3 text-left bg-gray-100 cursor-pointer" x-on:click="sort('budget')">
                                 @lang('crud.expenses_es.inputs.budget')
                             </th>
+                            <th></th>
                             @foreach ($types as $type)
                                 <th class="px-4 py-3 text-right text-white bg-gray-500">
                                     {{ $type->name }}
@@ -91,14 +92,15 @@
                             <tr class="bg-white odd:bg-gray-100 hover:bg-gray-50">
                                 <td class="p-1 text-sm text-center sm:text-md" x-text="expense.date"></td>
                                 <td class="p-1 text-sm text-center sm:text-md" x-text="expense.date_to"></td>
-                                <td class="p-1 text-sm text-center sm:text-md" x-text="expense.account"></td>
+                                <td class="p-1 text-sm text-center sm:text-md" x-text="expense.account_name"></td>
                                 <td class="p-1 text-sm text-center sm:text-md" x-text="expense.description"></td>
-                                <td class="p-1 text-sm text-center sm:text-md" x-text="expense.cluster"></td>
+                                <td class="p-1 text-sm text-center sm:text-md" x-text="expense.cluster_name"></td>
                                 {{-- <td class="p-1 text-sm text-center sm:text-md" x-text="expense.user"></td> --}}
-                                <td class="p-1 text-sm text-center sm:text-md" x-text="expense.assign"></td>
+                                <td class="p-1 text-sm text-center sm:text-md" x-text="expense.assign_name"></td>
                                 <td class="p-1 text-sm text-center sm:text-md" x-text="expense.budget_text"></td>
+                                <td><i @click="showEventModal(expense.id)"class="text-green-600 cursor-pointer bx bx-plus hover:shadow"></i></td>
                                 @foreach ($types as $type)
-                                    <td class="p-1 text-sm text-center bg-gray-300 border-b-2 border-gray-600 sm:text-md" x-text="expense.executeds.{{ $type->object_name }}"></td>
+                                    <td class="p-1 text-sm text-center bg-gray-300 border-b-2 border-gray-600 sm:text-md" x-text="expense?.executeds?.{{ $type->object_name }}"></td>
                                 @endforeach
                                 <td class="p-1 text-sm text-center sm:text-md" x-text="expense.total_text"></td>
                             </tr>
@@ -106,8 +108,9 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="5"></td>
+                            <td colspan="6"></td>
                             <td x-text="total_budget" class="text-center text-red-500 text-md"></td>
+                            <td></td>
                             <td colspan="{{ count($types) }}"></td>
                             <td x-text="total_expense" class="text-center text-red-500 text-md"></td>
                         </tr>
@@ -115,6 +118,12 @@
                 </table>
 
         </div>
+
+
+        <!-- Modal -->
+        <input type="hidden" id="user_id" value="{{ $user_id }}">
+        <x-modal-events></x-modal-events>
+        <!-- /Modal -->
 
     </div>
 
@@ -127,6 +136,40 @@
                 total_expense: 0,
                 sortCol:null,
                 sortAsc:false,
+                openEventModal: false,
+                title_events: 'Agregar eventos',
+                button_text: 'Guardar Evento',
+                button_exp_text: 'Agregar',
+                clusters: {},
+                assigns: {},
+                purposes: {},
+                colors: {},
+                types: {},
+                accounts: {},
+                addGastos: false,
+                update: false,
+                updateExp: false,
+                executeds: [],
+                event_object: {
+                    id: '',
+                    date: '',
+                    date_to: '',
+                    description: '',
+                    cluster_id: '',
+                    assign_id: '',
+                    purpose_id: '',
+                    account_id: '',
+                    budget: '',
+                    _token : this.token,
+                    user_id: '',
+                    google_calendar: '',
+                },
+                expense_object: {
+                    id: '',
+                    type_id: '',
+                    cost: '',
+                    description: '',
+                },
                 formData: {
                     desde: '',
                     hasta: '',
@@ -148,24 +191,36 @@
                     })
                     .then(res => res.json())
                     .then((result) => {
-                        for (let p in result) {
+                        for (let p in result.events) {
                             this.gastos = [...this.gastos, {
-                                    id: result[p].id,
-                                    date: result[p].date,
-                                    date_to: result[p].date_to,
-                                    description: result[p].description,
-                                    account: result[p].account,
-                                    cluster: result[p].cluster,
-                                    user: result[p].user,
-                                    assign: result[p].assign,
-                                    budget: result[p].budget,
-                                    budget_text: '$ '+result[p].budget,
-                                    executeds: result[p].executed,
-                                    total: result[p].total,
-                                    total_text: '$ '+result[p].total
+                                    id: result.events[p].id,
+                                    date: result.events[p].date,
+                                    date_to: result.events[p].date_to,
+                                    description: result.events[p].description,
+                                    account_id: result.events[p].account,
+                                    account_name: result.events[p].account_name,
+                                    cluster_id: result.events[p].cluster,
+                                    cluster_name: result.events[p].cluster_name,
+                                    user_id: result.events[p].user,
+                                    assign_id: result.events[p].assign,
+                                    assign_name: result.events[p].assign_name,
+                                    purpose: result.events[p].purpose,
+                                    purpose_id: result.events[p].purpose_id,
+                                    budget: result.events[p].budget,
+                                    budget_text: '$ '+result.events[p].budget,
+                                    executeds: result.events[p].executed,
+                                    total: result.events[p].total,
+                                    total_text: '$ '+result.events[p].total
                                 }]
 
                         }
+
+                        this.clusters = result.clusters
+                        this.assigns = result.assigns
+                        this.purposes = result.purposes
+                        this.colors = result.colors
+                        this.types = result.types
+                        this.accounts = result.accounts
 
                         this.gastos.map(gasto => {
                             this.total_budget += gasto.budget
@@ -180,6 +235,152 @@
                     });
 
                 },
+                showEventModal(id) {
+                    // open the modal
+
+                    this.openEventModal = true;
+                    this.refreshGastos()
+                    // this.event_object.date = new Date(this.year, this.month, date).toDateString();
+                    this.update = true
+                    let event = this.gastos.find(e => (e.id === id))
+                    this.title_events = 'Actualizar evento'
+                    this.button_text = 'Actualizar Evento'
+                    this.executeds = []
+                    this.event_object = {
+                        id: event.id,
+                        date: this.getFormattedDate(event.date),
+                        date_to: event.date_to ? this.getFormattedDate(event.date_to) : '',
+                        description: event.description,
+                        cluster_id: event.cluster_id,
+                        assign_id: event.assign_id,
+                        purpose_id: event.purpose_id,
+                        account_id: event.account_id,
+                        budget: event.budget,
+                        user_id: event.user_id,
+                        google_calendar: event.google_calendar,
+                    }
+
+                    fetch('/events/executeds/'+id)
+                    .then(res => res.json())
+                    .then((result) => {
+                        for (let p in result) {
+                            this.executeds = [...this.executeds, {
+                                id: result[p].id,
+                                type_id: result[p].type_id,
+                                cost: result[p].cost,
+                                description: result[p].description
+                            }]
+                        }
+                        console.table(this.executeds)
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+                },
+                refreshGastos() {
+                    this.addGastos = false
+                    this.button_exp_text = 'Add'
+                    this.updateExp = false
+                    this.expense_object.type_id = ''
+                    this.expense_object.cost = ''
+                    this.expense_object.id = ''
+                    this.expense_object.description = ''
+                },
+
+                addExecuteds(id) {
+                    this.expense_object._token = this.token
+                    fetch('/events/executeds/add/'+id, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(this.expense_object)
+                    })
+                    .then(res => res.json())
+                    .then((result) => {
+                        this.executeds.push({
+                            id: result,
+                            type_id: this.expense_object.type_id,
+                            cost: this.expense_object.cost,
+                            description: this.expense_object.description
+                        });
+
+                        this.filterExpenses()
+
+                        const notyf = new Notyf({dismissible: true})
+                        this.notify('success', 'Gasto añadido')
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                },
+
+                editExecuteds(id) {
+                    this.addGastos = true
+                    this.button_exp_text = 'Update'
+                    this.updateExp = true
+                    executeds = this.executeds.filter(e => e.id == id);
+                    this.expense_object.type_id = executeds[0]['type_id']
+                    this.expense_object.cost = executeds[0]['cost']
+                    this.expense_object.id = executeds[0]['id']
+                    this.expense_object.description = executeds[0]['description']
+                },
+
+                updateExecuteds(id) {
+                    this.expense_object._token = this.token
+                    fetch('/events/executeds/update/'+id, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(this.expense_object)
+                    })
+                    .then(() => JSON.parse(JSON.stringify(this.expense_object)))
+                    .then((result) => {
+                        const updatedData = this.executeds.map(x => x.id === id ? {
+                            id: id,
+                            type_id: this.expense_object.type_id,
+                            cost: this.expense_object.cost,
+                            description: this.expense_object.description
+                        } : x);
+
+                        this.executeds = updatedData
+
+                        this.refreshGastos()
+
+                        this.filterExpenses()
+
+                        this.notify('success', 'Gasto actualizado')
+
+                    })
+                },
+
+                deleteExecuteds(id) {
+                    if (!confirm('Are you sure?')) {
+                        return false
+                    }
+
+                    let data = { _token: this.token }
+                    fetch('/events/executeds/delete/'+id, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(() => JSON.parse(JSON.stringify(data)))
+                    .then((result) => {
+                        const updatedData = this.executeds.filter(item => item.id !== id)
+                        this.executeds = updatedData
+                        this.notify('error', 'Gasto eliminado')
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+                },
+
                 sort(col) {
                     if(this.sortCol === col) this.sortAsc = !this.sortAsc;
 
@@ -189,7 +390,34 @@
                         if(a[this.sortCol] > b[this.sortCol]) return this.sortAsc?-1:1;
                             return 0;
                     });
-                }
+                },
+                getFormattedDate(date) {
+                    if (date === 'now') {
+                        const dt = new Date();
+                        const padL = (nr, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
+                        return `${
+                            dt.getFullYear()}-${
+                            padL(dt.getMonth()+1)}-${
+                            padL(dt.getDate())} ${
+                            padL(dt.getHours())}:00:00`
+                    }
+                    const dt = new Date(date);
+                        const padL = (nr, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
+                        return `${
+                            dt.getFullYear()}-${
+                            padL(dt.getMonth()+1)}-${
+                            padL(dt.getDate())} ${
+                            padL(dt.getHours())}:00:00`
+                },
+
+                notify(e, message) {
+                    const notyf = new Notyf({dismissible: true})
+                    if (e == 'success') {
+                        notyf.success(message)
+                    } else if (e == 'error') {
+                        notyf.error(message)
+                    }
+                },
             }
         }
 

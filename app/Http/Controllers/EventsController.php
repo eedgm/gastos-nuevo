@@ -68,7 +68,7 @@ class EventsController extends Controller
 
         $accounts = Account::join('account_user', 'account_user.account_id', '=', 'accounts.id')
             ->where('account_user.user_id', $user_obj->id)
-            ->pluck('accounts.name', 'accounts.id');;
+            ->pluck('accounts.name', 'accounts.id');
 
         $events = [];
         foreach ($results as $r) {

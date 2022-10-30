@@ -7,6 +7,8 @@
 
         <title>@yield('title') {{ config('app.name', 'Gastos') }}</title>
 
+        <link rel="shortcut icon" href="/storage/servicio-icon.png" />
+
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -16,9 +18,7 @@
         <!-- Icons -->
         <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
 
-        <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
-
-        <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -41,7 +41,7 @@
                     <div class="flex items-center justify-center bg-white">
                         <div class="flex items-center p-2">
                             <a href="{{ route('events') }}">
-                                Gastos
+                                <img src="/storage/servicio.svg" alt="" class="w-32 h-auto">
                             </a>
 
                             {{-- <span class="mx-2 text-2xl font-semibold text-white">SSL</span> --}}
