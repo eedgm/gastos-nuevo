@@ -16,7 +16,7 @@
     <div class="flex items-center">
         @if(Auth::check())
             <div class="relative text-sm">
-                Welcome back: <a class="text-blue-500 hover:underline hover:text-blue-800" href="{{ route('profile.show') }}">{{ Auth::user()->name }}</a>
+                <a class="text-blue-500 hover:underline hover:text-blue-800" href="{{ route('profile.show') }}">{{ Auth::user()->name }}</a>
             </div>
         @endif
         <form method="POST" action="{{ route('logout') }}">
@@ -25,7 +25,7 @@
             <x-jet-dropdown-link href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                             this.closest('form').submit();">
-                {{ __('Log Out') }}
+                <i class="text-lg text-blue-800 bx bx-log-out"></i>
             </x-jet-dropdown-link>
         </form>
     </div>

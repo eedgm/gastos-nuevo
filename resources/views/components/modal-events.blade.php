@@ -101,8 +101,8 @@
             </div>
 
             <div class="flex w-full mt-3 ml-5 ">
-                <div class="w-4/12 mt-3">Gastos <i class="bx " :class="{'bx-hide' : addGastos, 'bx-plus' : !addGastos}" x-on:click="addGastos = !addGastos"></i></div>
-                <div class="flex w-8/12" x-show="addGastos">
+                <div class="mt-3 wfull lg:w-4/12">Gastos <i class="bx " :class="{'bx-hide' : addGastos, 'bx-plus' : !addGastos}" x-on:click="addGastos = !addGastos"></i></div>
+                <div class="flex flex-wrap w-full lg:w-8/12" x-show="addGastos">
                     <x-inputs.group class="w-full lg:w-4/12">
                         <x-inputs.select name="types_id" x-model="expense_object.type_id">
                             <option>Tipos</option>

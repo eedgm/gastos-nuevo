@@ -2,47 +2,45 @@
     @section('title', 'Dashboard')
 
     <div class="py-3" x-data="crudExpenses()" x-init="start">
-        <div class="w-full col-span-10 mx-auto sm:col-span-7 sm:px-2 lg:px-4">
-            <x-partials.card>
+        <x-partials.card>
 
-                <x-form
-                    method="POST"
-                    action="{{ route('expenses.search') }}"
-                    class="mt-4"
-                    x-on:submit.prevent="filterExpenses(event)"
-                >
-                    <div class="flex">
-                        <x-inputs.group class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                            <x-inputs.date
-                                name="desde"
-                                label="Desde"
-                                value=""
-                                max="255"
-                                x-model="formData.desde"
-                            ></x-inputs.date>
-                        </x-inputs.group>
+            <x-form
+                method="POST"
+                action="{{ route('expenses.search') }}"
+                class="mt-4"
+                x-on:submit.prevent="filterExpenses(event)"
+            >
+                <div class="flex flex-wrap">
+                    <x-inputs.group class="w-full lg:w-4/12">
+                        <x-inputs.date
+                            name="desde"
+                            label="Desde"
+                            value=""
+                            max="255"
+                            x-model="formData.desde"
+                        ></x-inputs.date>
+                    </x-inputs.group>
 
-                        <x-inputs.group class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                            <x-inputs.date
-                                name="hasta"
-                                label="Hasta"
-                                value=""
-                                max="255"
-                                x-model="formData.hasta"
-                            ></x-inputs.date>
-                        </x-inputs.group>
-                        <div class="w-full mt-5 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                            <button type="submit" class="float-right button button-primary">
-                                <i class="mr-1 bx bx-save"></i>
-                                <span>Filtrar</span>
-                            </button>
-                        </div>
+                    <x-inputs.group class="w-full lg:w-4/12">
+                        <x-inputs.date
+                            name="hasta"
+                            label="Hasta"
+                            value=""
+                            max="255"
+                            x-model="formData.hasta"
+                        ></x-inputs.date>
+                    </x-inputs.group>
+                    <div class="w-full mt-5 lg:w-4/12">
+                        <button type="submit" class="float-right button button-primary">
+                            <i class="mr-1 bx bx-save"></i>
+                            <span>Filtrar</span>
+                        </button>
                     </div>
-                </x-form>
-            </x-partials.card>
-        </div>
+                </div>
+            </x-form>
+        </x-partials.card>
 
-        <div class="w-full col-span-10 mx-auto mt-5 sm:col-span-7 sm:px-2 lg:px-4">
+        <div class="block w-full col-span-10 mx-auto mt-4 overflow-auto scrolling-touch sm:col-span-7 sm:px-2 lg:px-4">
 
                 <table class="w-full bg-white divide-y divide-gray-200 table-auto">
                     <thead class="">
