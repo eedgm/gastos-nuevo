@@ -11,6 +11,15 @@
 
         <div class="overflow-hidden bg-white rounded-lg shadow">
 
+            <div class="hidden">
+                <span class="text-white bg-blue-500 border-blue-200"></span>
+                <span class="text-red-800 bg-red-100 border-red-200"></span>
+                <span class="text-yellow-800 bg-yellow-100 border-yellow-200"></span>
+                <span class="text-green-800 bg-green-100 border-green-200"></span>
+                <span class="text-purple-800 bg-purple-100 border-purple-200"></span>
+                <span class="text-gray-800 bg-gray-100 border-gray-200"></span>
+            </div>
+
             <div class="flex items-center justify-between px-6 py-2">
                 <div>
                     <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-800"></span>
