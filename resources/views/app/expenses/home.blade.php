@@ -226,7 +226,7 @@
                         })
 
                         this.total_budget = '$'+this.total_budget
-                        this.total_expense = '$'+this.total_expense
+                        this.total_expense = '$'+ parseFloat(this.total_expense).toFixed(2)
                     })
                     .catch((error) => {
                         console.error('Error:', error);

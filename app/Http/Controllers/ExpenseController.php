@@ -103,10 +103,10 @@ class ExpenseController extends Controller
             }
             $total = 0;
             foreach ($result->executeds as $executed) {
-                $expenses['events'][$result->id]['executed'][$executed->type->object_name] = isset($expenses['events'][$result->id]['executed'][$executed->type->object_name]) ? $expenses['events'][$result->id]['executed'][$executed->type->object_name] + $executed->cost : $executed->cost;
+                $expenses['events'][$result->id]['executed'][$executed->type->object_name] = isset($expenses['events'][$result->id]['executed'][$executed->type->object_name]) ? number_format($expenses['events'][$result->id]['executed'][$executed->type->object_name] + $executed->cost, 2) : number_format($executed->cost, 2);
                 $total += $executed->cost;
             }
-            $expenses['events'][$result->id]['total'] = $total;
+            $expenses['events'][$result->id]['total'] = number_format($total, 2);
 
         }
 
