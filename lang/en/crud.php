@@ -173,6 +173,21 @@ return [
         ],
     ],
 
+    'balances' => [
+        'name' => 'Balances',
+        'index_title' => 'Balances List',
+        'new_title' => 'New Balance',
+        'create_title' => 'Create Balance',
+        'edit_title' => 'Edit Balance',
+        'show_title' => 'Show Balance',
+        'inputs' => [
+            'date' => 'Date',
+            'description' => 'Description',
+            'total' => 'Total',
+            'account_id' => 'Account'
+        ],
+    ],
+
     'bank_accounts' => [
         'name' => 'Bank Accounts',
         'index_title' => 'Accounts List',
@@ -279,6 +294,7 @@ return [
         'create_title' => 'Create Expense',
         'edit_title' => 'Edit Expense',
         'show_title' => 'Show Expense',
+        'total' => 'Total',
         'inputs' => [
             'date' => 'Date',
             'date_to' => 'Date To',

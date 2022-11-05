@@ -39,6 +39,11 @@ class Account extends Model
         return $this->belongsTo(Bank::class);
     }
 
+    public function balances()
+    {
+        return $this->hasMany(Balance::class);
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class);
@@ -57,5 +62,10 @@ class Account extends Model
     public function purposes()
     {
         return $this->belongsToMany(Purpose::class);
+    }
+
+    public function executeds()
+    {
+        return $this->hasManyThrough(Executed::class, Expense::class);
     }
 }

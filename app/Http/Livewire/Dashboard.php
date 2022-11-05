@@ -21,6 +21,7 @@ class Dashboard extends Component
     public function render()
     {
         $accounts = $this->user->accounts;
+
         return view('livewire.dashboard', compact('accounts'));
     }
 }

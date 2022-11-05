@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BankStoreRequest extends FormRequest
+class BalanceUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,13 +19,16 @@ class BankStoreRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules()
     {
         return [
-            'name' => ['required', 'max:255', 'string'],
+            'date' => ['required', 'date'],
+            'account_id' => ['required', 'exists:accounts,id'],
             'description' => ['nullable', 'string'],
+            'total' => ['nullable', 'numeric'],
+            'reported' => ['nullable', 'boolean'],
         ];
     }
 }

@@ -1,18 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\AssignController;
+use App\Http\Controllers\EventsController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\ClusterController;
 use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\EventsController;
 use App\Http\Controllers\PurposeController;
 use App\Http\Controllers\ExecutedController;
 use App\Http\Controllers\PermissionController;
@@ -67,4 +68,5 @@ Route::prefix('/')
         Route::resource('purposes', PurposeController::class);
         Route::resource('types', TypeController::class);
         Route::resource('users', UserController::class);
+        Route::resource('balances', BalanceController::class);
     });

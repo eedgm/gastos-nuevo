@@ -2,32 +2,29 @@
 
 namespace App\Models;
 
+use App\Models\Account;
 use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Income extends Model
+class Balance extends Model
 {
     use HasFactory;
     use Searchable;
-    use SoftDeletes;
 
-    protected $fillable = ['account_id', 'date', 'cost', 'description'];
+    protected $fillable = ['date', 'account_id', 'total', 'description', 'reported'];
 
     protected $searchableFields = ['*'];
 
-    protected $casts = [
-        'date' => 'date',
-    ];
+    protected $casts = ['date' => 'date'];
 
     public function account()
     {
         return $this->belongsTo(Account::class);
     }
 
-    public function balances()
+    public function expenses()
     {
-        return $this->belongsToMany(Balance::class);
+        return $this->hasMany(Expense::class);
     }
 }

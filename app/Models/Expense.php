@@ -21,7 +21,8 @@ class Expense extends Model
         'assign_id',
         'budget',
         'account_id',
-        'google_id'
+        'google_id',
+        'balance_id',
     ];
 
     protected $searchableFields = ['*'];
@@ -54,5 +55,17 @@ class Expense extends Model
     public function purposes()
     {
         return $this->belongsToMany(Purpose::class);
+    }
+
+    public function balances()
+    {
+        return $this->belongsToMany(Balance::class);
+    }
+
+    public function totalExecuteds()
+    {
+        return $this->hasMany(Executed::class)
+            ->selectRaw('SUM(cost) as total')
+            ->groupBy('expense_id');
     }
 }

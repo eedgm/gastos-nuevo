@@ -26,7 +26,6 @@
             name="cost"
             label="Cost"
             :value="old('cost', ($editing ? $income->cost : ''))"
-            max="255"
             step="0.01"
             placeholder="Cost"
             required
