@@ -106,7 +106,7 @@ class ExpenseController extends Controller
                 $expenses['events'][$result->id]['executed'][$executed->type->object_name] = isset($expenses['events'][$result->id]['executed'][$executed->type->object_name]) ? number_format($expenses['events'][$result->id]['executed'][$executed->type->object_name] + $executed->cost, 2) : number_format($executed->cost, 2);
                 $total += $executed->cost;
             }
-            $expenses['events'][$result->id]['total'] = number_format($total, 2);
+            $expenses['events'][$result->id]['total'] = $total;
 
         }
 
