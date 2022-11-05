@@ -208,7 +208,7 @@
                                     budget_text: '$ '+result.events[p].budget,
                                     executeds: result.events[p].executed,
                                     total: result.events[p].total,
-                                    total_text: '$ '+result.events[p].total
+                                    total_text: '$ ' + parseFloat(result.events[p].total).toFixed(2)
                                 }]
 
                         }
