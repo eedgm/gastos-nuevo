@@ -58,6 +58,9 @@
                                 <th class="px-4 py-3 text-left">
                                     @lang('crud.balances.inputs.description')
                                 </th>
+                                <th class="px-4 py-3 text-left">
+                                    @lang('crud.balances.inputs.reported')
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -73,6 +76,9 @@
                                 <td class="px-4 py-3 text-left">
                                     {{ $balance->description ?? '-' }}
                                 </td>
+                                <th class="px-4 py-3 text-left">
+                                    <input type="checkbox" {{ $balance->reported ? 'checked' : '' }} class="text-green-500">
+                                </th>
                                 <td
                                     class="px-4 py-3 text-center"
                                     style="width: 134px;"

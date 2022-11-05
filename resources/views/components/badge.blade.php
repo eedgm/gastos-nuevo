@@ -1,4 +1,4 @@
-@props(['background', 'title', 'total', 'icon'])
+@props(['background', 'title', 'total', 'icon', 'add'])
 
 <div class="w-full mt-4">
     <div class="flex justify-between p-4 w-full {{ $background }} rounded-lg">

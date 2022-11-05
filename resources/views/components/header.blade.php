@@ -12,9 +12,9 @@
             </svg>
         </button>
 
-        <x-links href="{{ route('events') }}" :active="request()->routeIs('events')"><i class="bx bx-calendar-event"></i></x-links>
-        <x-links href="{{ route('gastos') }}" :active="request()->routeIs('gastos')"><i class="bx bxs-dashboard"></i></x-links>
-        <x-links href="{{ route('balances.index') }}" :active="request()->routeIs('balances.index')"><i class="bx bx-repost"></i></x-links>
+        <x-links href="{{ route('events') }}" :active="request()->routeIs('events')" title="Calendar"><i class="bx bx-calendar-event"></i></x-links>
+        <x-links href="{{ route('gastos') }}" :active="request()->routeIs('gastos')" title="Report"><i class="bx bxs-dashboard"></i></x-links>
+        <x-links href="{{ route('balances.index') }}" :active="request()->routeIs('balances.index')" title="Balance"><i class="bx bx-repost"></i></x-links>
     </div>
 
     <div class="flex items-center">

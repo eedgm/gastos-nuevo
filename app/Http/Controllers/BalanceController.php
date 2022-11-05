@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Balance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\BalanceStoreRequest;
 use App\Http\Requests\StoreBalanceRequest;
 use App\Http\Requests\BalanceUpdateRequest;
@@ -21,9 +22,13 @@ class BalanceController extends Controller
     {
         $this->authorize('view-any', Balance::class);
 
+        $user = Auth::user();
+        $accounts = $user->accounts->modelKeys();
+
         $search = $request->get('search', '');
 
         $balances = Balance::search($search)
+            ->whereIn('account_id', $accounts)
             ->latest()
             ->paginate(5)
             ->withQueryString();
@@ -39,7 +44,10 @@ class BalanceController extends Controller
     {
         $this->authorize('create', Balance::class);
 
-        $accounts = Account::pluck('name', 'id');
+        $user = Auth::user();
+        $accounts_to_select = $user->accounts->modelKeys();
+
+        $accounts = Account::whereIn('id', $accounts_to_select)->pluck('name', 'id');
 
         return view('app.balances.create', compact('accounts'));
     }

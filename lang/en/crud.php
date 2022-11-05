@@ -184,7 +184,8 @@ return [
             'date' => 'Date',
             'description' => 'Description',
             'total' => 'Total',
-            'account_id' => 'Account'
+            'account_id' => 'Account',
+            'reported' => 'Reported'
         ],
     ],
 

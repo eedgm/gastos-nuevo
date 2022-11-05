@@ -44,14 +44,14 @@
                     </div>
                 </x-form>
             </x-partials.card>
+
+            <x-partials.card class="mt-5">
+                <x-slot name="title">
+                    Balances
+                </x-slot>
+
+                <livewire:balance-calculator :account="$balance->account" :balance="$balance" />
+            </x-partials.card>
         </div>
-
-        <x-partials.card class="mt-5">
-            <x-slot name="title">
-                Balances
-            </x-slot>
-
-            <livewire:balance-calculator :account="$balance->account" :balance="$balance" />
-        </x-partials.card>
     </div>
 </x-app-layout>

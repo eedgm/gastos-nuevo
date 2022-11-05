@@ -5,22 +5,30 @@ namespace App\Http\Livewire;
 use App\Models\Income;
 use App\Models\Account;
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 
-class Dashboard extends Component
+class NewIncome extends Component
 {
-    public $user;
-    public $account;
+    public Income $income;
+    public Account $account;
+
+    public $incomeDate;
+
+    public $showingModal = false;
+    public $modalTitle = 'New Income';
+
+    protected $rules = [
+        'incomeDate' => ['required', 'date'],
+        'income.cost' => ['required', 'numeric'],
+        'income.description' => ['nullable', 'max:255', 'string'],
+    ];
 
     protected $listeners = [
         'refreshComponent' => '$refresh'
     ];
 
-    public function mount() {
-        $this->user = Auth::user();
-        if ($this->user->isAuxiliar()) {
-
-        }
+    public function mount(Account $account)
+    {
+        $this->account = $account;
     }
 
     public function addIncome(Account $account)
@@ -49,13 +57,13 @@ class Dashboard extends Component
 
         $this->income->save();
 
+        $this->emit('refreshComponent');
+
         $this->showingModal = false;
     }
 
     public function render()
     {
-        $accounts = $this->user->accounts;
-
-        return view('livewire.dashboard', compact('accounts'));
+        return view('livewire.new-income', ['account' => $this->account]);
     }
 }
