@@ -3,7 +3,7 @@
 
 @section('content')
 <div x-data="app()" x-init="[initDate(), getNoOfDays()]" x-cloak>
-    <div class="container px-4 py-2 mx-auto">
+    <div class="mx-auto sp-0 lg:px-4 lg:py-2">
 
         <!-- <div class="mb-4 text-xl font-bold text-gray-800">
             Schedule Tasks
@@ -50,13 +50,13 @@
                 </div>
             </div>
 
-            <div class="-mx-1 -mb-1">
-                <div class="flex flex-wrap" style="margin-bottom: -40px;">
+            <div class="mt-5">
+                <div class="flex flex-wrap mt-[-20px;]">
                     <template x-for="(day, index) in DAYS" :key="index">
-                        <div style="width: 14.26%" class="px-2 py-2">
+                        <div class="w-[14.28%] p-0 lg:px-2 lg:py-2">
                             <div
                                 x-text="day"
-                                class="text-sm font-bold tracking-wide text-center text-gray-600 uppercase"></div>
+                                class="text-xs font-bold tracking-wide text-center text-gray-600 uppercase lg:text-sm"></div>
                         </div>
                     </template>
                 </div>
@@ -64,26 +64,25 @@
                 <div class="flex flex-wrap border-t border-l">
                     <template x-for="blankday in blankdays">
                         <div
-                            style="width: 14.28%; height: 160px"
-                            class="px-4 pt-2 text-center border-b border-r"
+                            class="w-[14.28%] p-0 text-center border-b border-r lg:px-4 lg:pt-2 h-[160px]"
                         ></div>
                     </template>
                     <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex">
-                        <div style="width: 14.28%; height: 160px" class="relative px-4 pt-2 border-b border-r">
+                        <div class="w-[14.28%] h-[160px] relative lg:px-4 lg:pt-2 p-1 border-b border-r">
                             <div
                                 @click="showEventModal(date)"
                                 x-text="date"
                                 class="inline-flex items-center justify-center w-6 h-6 leading-none text-center transition duration-100 ease-in-out rounded-full cursor-pointer"
                                 :class="{'bg-red-500 text-white': isToday(date) == true, 'text-gray-700 hover:bg-red-200': isToday(date) == false }"
                             ></div>
-                            <div style="height: 80px;" class="mt-1 overflow-y-auto">
+                            <div class="mt-1 overflow-y-auto h-[90%] lg:h-[80%]">
                                 <template x-for="event in events.filter(e => new Date(e.date).toDateString() === new Date(year, month, date).toDateString() )">
                                     <div
                                         class="px-2 py-1 mt-1 overflow-hidden border rounded-lg cursor-pointer"
                                         :class="event.purpose"
                                         @click="showEventModal(date, event.id)"
                                     >
-                                        <p x-text="event.description" class="text-sm leading-tight truncate"></p>
+                                        <p x-text="event.description" class="text-xs leading-tight truncate lg:text-sm"></p>
                                     </div>
                                 </template>
                             </div>
@@ -201,7 +200,6 @@
                                 description: result[p].description
                             }]
                         }
-                        console.table(this.executeds)
                     })
                     .catch((error) => {
                         console.error('Error:', error);
@@ -251,8 +249,6 @@
                         }]
                     }
 
-                    console.table(this.events)
-
                     this.clusters = result.clusters
                     this.assigns = result.assigns
                     this.purposes = result.purposes
@@ -283,17 +279,18 @@
                 .then(res => res.json())
                 .then((result) => {
                     this.events.push({
-                        id: result.id,
+                        id: result,
                         date: this.event_object.date,
                         date_to: this.event_object.date_to,
                         description: this.event_object.description,
-                        cluster_id: this.cluster,
-                        assign_id: this.assign,
+                        cluster_id: this.event_object.cluster_id,
+                        assign_id: this.event_object.assign_id,
                         purpose: this.colors[this.event_object.purpose_id],
                         purpose_id: this.event_object.purpose_id,
                         account_id: this.event_object.account_id,
                         budget: this.event_object.budget
                     });
+                    console.table(this.events)
                     this.notify('success', 'Nuevo evento añadido')
                 })
                 .catch((error) => {
@@ -325,8 +322,8 @@
                         date: this.event_object.date,
                         date_to: this.event_object.date_to,
                         description: this.event_object.description,
-                        cluster_id: this.cluster,
-                        assign_id: this.assign,
+                        cluster_id: this.event_object.cluster_id,
+                        assign_id: this.event_object.assign_id,
                         purpose: this.colors[this.event_object.purpose_id],
                         purpose_id: this.event_object.purpose_id,
                         account_id: this.event_object.account_id,
