@@ -45,21 +45,31 @@ class ExpenseController extends Controller
     public function search(Request $request) {
         $user = Auth::user();
 
+        $results = Expense::orderBy('date', 'DESC')
+            ->where('date', '>=', $request->desde)
+            ->where('date', '<=', $request->hasta)
+            ->when($request->account_id, function ($query) use ($request) {
+                $account = $request->account_id;
+                $query->where('account_id', $account);
+            })
+            ->when(!$request->account_id, function ($query) use ($request, $user) {
+                $accounts = $user->accounts->modelKeys();
+                $query->whereIn('account_id', $accounts);
+            })
+            ->when($request->reported, function ($query) use ($request) {
+                $query->whereNotNull('balance_id');
+            })
+            ->when(!$request->reported, function ($query) use ($request) {
+                $query->whereNull('balance_id');
+            })
+            ->get();
+
         if ($request->account_id) {
             $account = $request->account_id;
-            $results = Expense::orderBy('date', 'DESC')
-                ->where('account_id', $account)
-                ->where('date', '>=', $request->desde)
-                ->where('date', '<=', $request->hasta)
-                ->get();
+            $results->where('account_id', $account);
         } else {
             $accounts = $user->accounts->modelKeys();
-
-            $results = Expense::orderBy('date', 'DESC')
-                ->whereIn('account_id', $accounts)
-                ->where('date', '>=', $request->desde)
-                ->where('date', '<=', $request->hasta)
-                ->get();
+            $results->whereIn('account_id', $accounts);
         }
 
         $clusters = Cluster::join('account_cluster', 'clusters.id', '=', 'account_cluster.account_id')

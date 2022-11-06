@@ -31,7 +31,7 @@
                         ></x-inputs.date>
                     </x-inputs.group>
 
-                    <x-inputs.group class="w-full lg:w-3/12">
+                    <x-inputs.group class="w-full lg:w-2/12">
                         <x-inputs.select name="account_id" label="Cuentas" x-model="formData.account_id">
                             <option>Cuentas</option>
                             <template x-for="(option, i) in accounts_filter" :key="i">
@@ -43,7 +43,15 @@
                         </x-inputs.select>
                     </x-inputs.group>
 
-                    <div class="w-full mt-5 lg:w-3/12">
+                    <x-inputs.group class="flex items-center w-full lg:w-2/12">
+                        <x-inputs.checkbox
+                            name="reported"
+                            label="In Balance"
+                            x-model="formData.reported"
+                        ></x-inputs.checkbox>
+                    </x-inputs.group>
+
+                    <div class="w-full mt-5 lg:w-2/12">
                         <button type="submit" class="float-right button button-primary">
                             <i class="mr-1 bx bx-save"></i>
                             <span>Filtrar</span>
@@ -186,6 +194,7 @@
                     desde: '',
                     hasta: '',
                     account_id: '',
+                    reported: '',
                     _token : this.token,
                 },
                 start: function() {
@@ -234,7 +243,6 @@
                                     total: result.events[p].total,
                                     total_text: '$ ' + parseFloat(result.events[p].total).toFixed(2)
                                 }]
-
                         }
 
                         this.clusters = result.clusters
