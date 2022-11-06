@@ -12,7 +12,7 @@
             <div class="text-lg font-bold">{{ $modalTitle }}</div>
 
             <div class="mt-5">
-                <h1 class="text-lg bold">expenses</h1>
+                <h1 class="text-lg bold">Incomes</h1>
                 <table class="w-full max-w-full mb-4 bg-transparent">
                     <thead class="text-gray-700">
                         <tr>
@@ -90,30 +90,30 @@
                     </thead>
                     <tbody class="text-gray-600">
                         @foreach ($expenses as $expense)
-                        <tr class="hover:bg-gray-100">
-                            <td class="px-4 py-3 text-left">
-                                <input
-                                    type="checkbox"
-                                    value="{{ $expense->id }}"
-                                    wire:model="selectedExpense"
-                                />
-                            </td>
-                            <td class="px-4 py-3 text-left">
-                                {{ $expense->date ? date('Y-m-d', strtotime($expense->date)) : '-' }}
-                            </td>
-                            <td class="px-4 py-3 text-left">
-                                {{ $expense->description ?? '-' }}
-                            </td>
-                            <td class="px-4 py-3 text-left">
-                                {{ optional($expense->cluster)->name ?? '-' }}
-                            </td>
-                            <td class="px-4 py-3 text-left">
-                                {{ optional($expense->assign)->name ?? '-' }}
-                            </td>
-                            <td class="px-4 py-3 text-right">
-                                {{ optional($expense->totalExecuteds()->first())->total }}
-                            </td>
-                        </tr>
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-4 py-3 text-left">
+                                    <input
+                                        type="checkbox"
+                                        value="{{ $expense->id }}"
+                                        wire:model="selectedExpense"
+                                    />
+                                </td>
+                                <td class="px-4 py-3 text-left">
+                                    {{ $expense->date ? date('Y-m-d', strtotime($expense->date)) : '-' }}
+                                </td>
+                                <td class="px-4 py-3 text-left">
+                                    {{ $expense->description ?? '-' }}
+                                </td>
+                                <td class="px-4 py-3 text-left">
+                                    {{ optional($expense->cluster)->name ?? '-' }}
+                                </td>
+                                <td class="px-4 py-3 text-left">
+                                    {{ optional($expense->assign)->name ?? '-' }}
+                                </td>
+                                <td class="px-4 py-3 text-right">
+                                    {{ optional($expense->executeds)->sum('cost') }}
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -223,7 +223,7 @@
                     {{ optional($expense->assign)->name ?? '-' }}
                 </td>
                 <td class="px-4 py-3 text-right">
-                    {{ $exptotal = optional($expense->totalExecuteds()->first())->total }}
+                    {{ $exptotal = optional($expense->executeds)->sum('cost') }}
                 </td>
                 <td>
                     <i

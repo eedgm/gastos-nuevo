@@ -15,6 +15,9 @@ class BalanceCalculator extends Component
     public $balance;
     public $showingModal = false;
 
+    public $incomes;
+    public $expenses;
+
     public $allSelectedIncomes = false;
     public $selectedIncome = [];
     public $allSelectedExpenses = false;
@@ -75,8 +78,14 @@ class BalanceCalculator extends Component
 
     public function render()
     {
-        $incomes = Income::where('balance_id', null)->where('account_id', $this->account->id)->get();
-        $expenses = Expense::where('balance_id', null)->where('account_id', $this->account->id)->get();
+        $incomes = $this->incomes = Income::where('balance_id', null)
+            ->where('account_id', $this->account->id)
+            ->get();
+        $expenses = $this->expenses = Expense::rightJoin('executeds', 'expenses.id', '=', 'executeds.expense_id')
+            ->select('expenses.*')
+            ->where('balance_id', null)
+            ->where('account_id', $this->account->id)
+            ->get();
 
         $incomes_result = Income::where('balance_id', $this->balance->id)->get();
         $expenses_result = Expense::where('balance_id', $this->balance->id)->get();
