@@ -81,10 +81,11 @@ class BalanceCalculator extends Component
         $incomes = $this->incomes = Income::where('balance_id', null)
             ->where('account_id', $this->account->id)
             ->get();
-        $expenses = $this->expenses = Expense::rightJoin('executeds', 'expenses.id', '=', 'executeds.expense_id')
+        $expenses = $this->expenses = Expense::join('executeds', 'expenses.id', '=', 'executeds.expense_id')
             ->select('expenses.*')
             ->where('balance_id', null)
             ->where('account_id', $this->account->id)
+            ->groupBy('executeds.expense_id')
             ->get();
 
         $incomes_result = Income::where('balance_id', $this->balance->id)->get();
