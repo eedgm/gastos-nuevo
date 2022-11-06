@@ -48,6 +48,7 @@ Route::prefix('/')
         Route::put('events/update/{expense}', [EventsController::class, 'update'])->name('events.update');
         Route::delete('events/delete/{expense}', [EventsController::class, 'delete'])->name('events.delete');
         Route::get('events/accounts/details/{account}', [EventsController::class, 'getAccountDetails'])->name('events.account_details');
+        Route::get('user/accounts', [EventsController::class, 'getAccounts'])->name('events.user_accounts');
 
         Route::get('events/executeds/{expense}', [EventsController::class, 'getExecuteds'])->name('events.executeds');
         Route::post('events/executeds/add/{expense}', [EventsController::class, 'addExecuteds'])->name('events.addExecuteds');

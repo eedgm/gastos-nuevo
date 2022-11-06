@@ -11,7 +11,7 @@
                 x-on:submit.prevent="filterExpenses(event)"
             >
                 <div class="flex flex-wrap">
-                    <x-inputs.group class="w-full lg:w-4/12">
+                    <x-inputs.group class="w-full lg:w-3/12">
                         <x-inputs.date
                             name="desde"
                             label="Desde"
@@ -21,7 +21,7 @@
                         ></x-inputs.date>
                     </x-inputs.group>
 
-                    <x-inputs.group class="w-full lg:w-4/12">
+                    <x-inputs.group class="w-full lg:w-3/12">
                         <x-inputs.date
                             name="hasta"
                             label="Hasta"
@@ -30,7 +30,20 @@
                             x-model="formData.hasta"
                         ></x-inputs.date>
                     </x-inputs.group>
-                    <div class="w-full mt-5 lg:w-4/12">
+
+                    <x-inputs.group class="w-full lg:w-3/12">
+                        <x-inputs.select name="account_id" label="Cuentas" x-model="formData.account_id">
+                            <option>Cuentas</option>
+                            <template x-for="(option, i) in accounts_filter" :key="i">
+                                <option
+                                    :value="i"
+                                    x-text="option"
+                                ></option>
+                            </template>
+                        </x-inputs.select>
+                    </x-inputs.group>
+
+                    <div class="w-full mt-5 lg:w-3/12">
                         <button type="submit" class="float-right button button-primary">
                             <i class="mr-1 bx bx-save"></i>
                             <span>Filtrar</span>
@@ -82,7 +95,7 @@
                                     {{ $type->name }}
                                 </th>
                             @endforeach
-                            <th class="bg-red-500">Total</th>
+                            <th class="text-white bg-red-500">Total</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -144,6 +157,7 @@
                 colors: {},
                 types: {},
                 accounts: {},
+                accounts_filter: {},
                 addGastos: false,
                 update: false,
                 updateExp: false,
@@ -171,9 +185,19 @@
                 formData: {
                     desde: '',
                     hasta: '',
+                    account_id: '',
                     _token : this.token,
                 },
                 start: function() {
+                    fetch('/user/accounts/')
+                    .then(res => res.json())
+                    .then((result) => {
+                        console.table(result);
+                        this.accounts_filter = result
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
                 },
                 filterExpenses: function() {
                     this.formData._token = this.token

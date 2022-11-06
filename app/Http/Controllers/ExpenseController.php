@@ -44,13 +44,23 @@ class ExpenseController extends Controller
 
     public function search(Request $request) {
         $user = Auth::user();
-        $accounts = $user->accounts->modelKeys();
 
-        $results = Expense::orderBy('date', 'DESC')
-            ->whereIn('account_id', $accounts)
-            ->where('date', '>=', $request->desde)
-            ->where('date', '<=', $request->hasta)
-            ->get();
+        if ($request->account_id) {
+            $account = $request->account_id;
+            $results = Expense::orderBy('date', 'DESC')
+                ->where('account_id', $account)
+                ->where('date', '>=', $request->desde)
+                ->where('date', '<=', $request->hasta)
+                ->get();
+        } else {
+            $accounts = $user->accounts->modelKeys();
+
+            $results = Expense::orderBy('date', 'DESC')
+                ->whereIn('account_id', $accounts)
+                ->where('date', '>=', $request->desde)
+                ->where('date', '<=', $request->hasta)
+                ->get();
+        }
 
         $clusters = Cluster::join('account_cluster', 'clusters.id', '=', 'account_cluster.account_id')
             ->join('accounts', 'account_cluster.account_id', '=', 'accounts.id')

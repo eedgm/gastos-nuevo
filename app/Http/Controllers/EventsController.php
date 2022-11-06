@@ -229,4 +229,14 @@ class EventsController extends Controller
 
         echo json_encode($events);
     }
+
+    public function getAccounts(Request $request) {
+        $user = Auth::user();
+
+        $accounts = Account::join('account_user', 'account_user.account_id', '=', 'accounts.id')
+            ->where('account_user.user_id', $user->id)
+            ->pluck('accounts.name', 'accounts.id');
+
+        echo json_encode($accounts);
+    }
 }
