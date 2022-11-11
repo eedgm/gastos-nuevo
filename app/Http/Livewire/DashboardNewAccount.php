@@ -47,6 +47,8 @@ class DashboardNewAccount extends Component
             $this->authorize('create', Account::class);
             if (!Bank::where('name', $this->account->bank_id)->exists()) {
                 $bank = Bank::create(['name' => $this->account->bank_id]);
+            } else {
+                $bank = $this->account->bank_id;
             }
             $this->account->bank_id = $bank->id;
         } else {
