@@ -22,7 +22,6 @@ class AccountAssignsDetail extends Component
 
     protected $rules = [
         'assign_id' => ['nullable', 'exists:assigns,id'],
-        'assign_name' => ['nullable', 'string'],
     ];
 
     public function mount(Account $account)
@@ -64,16 +63,19 @@ class AccountAssignsDetail extends Component
 
     public function save()
     {
-        $this->validate();
-
         $this->authorize('create', Assign::class);
 
-        if ($this->assign_name) {
-            $assign = Assign::create(['name' => $this->assign_name]);
+        if (!Assign::where('name', $this->assign_id)->exists()) {
+            $assign = Assign::create(['name' => $this->assign_id]);
             $this->assign_id = $assign->id;
+            $this->assignsForSelect = Assign::pluck('name', 'id');
+        } else {
+            $this->assign_id = Assign::where('name', $this->assign_id)->first()->id;
         }
 
-        $this->account->assigns()->attach($this->assign_id, []);
+        $this->account->assigns()->sync($this->assign_id, []);
+
+        $this->dispatchBrowserEvent('refresh');
 
         $this->hideModal();
     }

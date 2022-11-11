@@ -25,7 +25,6 @@ class AccountPurposesDetail extends Component
 
     protected $rules = [
         'purpose_id' => ['nullable', 'exists:purposes,id'],
-        'purpose_name' => ['nullable', 'string'],
         'color_id' => ['nullable', 'exists:colors,id'],
     ];
 
@@ -65,23 +64,30 @@ class AccountPurposesDetail extends Component
         $this->showingModal = false;
     }
 
-    public function updatedPurposeName($value)
+    public function updatedPurposeId($value)
     {
-        $this->newProposal = true;
+        if (strlen($value) > 3) {
+            if (!Purpose::where('name', 'like',  "%{$value}%")->exists()) {
+                $this->newProposal = true;
+            } else {
+                $this->newProposal = false;
+            }
+        }
     }
 
     public function save()
     {
-        $this->validate();
-
         $this->authorize('create', Purpose::class);
 
-        if ($this->purpose_name) {
-            $purpose = Purpose::create(['name' => $this->purpose_name, 'color_id' => $this->color_id]);
+        if (!Purpose::where('name', $this->purpose_id)->exists()) {
+            $purpose = Purpose::create(['name' => $this->purpose_id, 'color_id' => $this->color_id]);
             $this->purpose_id = $purpose->id;
+            $this->purposesForSelect = Purpose::pluck('name', 'id');
+        } else {
+            $this->purpose_id = Purpose::where('name', $this->purpose_id)->first()->id;
         }
 
-        $this->account->purposes()->attach($this->purpose_id, []);
+        $this->account->purposes()->sync($this->purpose_id, []);
 
         $this->hideModal();
     }

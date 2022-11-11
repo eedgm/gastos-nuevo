@@ -23,7 +23,6 @@ class AccountClustersDetail extends Component
 
     protected $rules = [
         'cluster_id' => ['nullable', 'exists:clusters,id'],
-        'cluster_name' => ['nullable', 'string'],
     ];
 
     public function mount(Account $account)
@@ -65,16 +64,17 @@ class AccountClustersDetail extends Component
 
     public function save()
     {
-        $this->validate();
-
         $this->authorize('create', Cluster::class);
 
-        if ($this->cluster_name) {
-            $cluster = Cluster::create(['name' => $this->cluster_name]);
+        if (!Cluster::where('name', $this->cluster_id)->exists()) {
+            $cluster = Cluster::create(['name' => $this->cluster_id]);
             $this->cluster_id = $cluster->id;
+            $this->clustersForSelect = Cluster::pluck('name', 'id');
+        } else {
+            $this->cluster_id = Cluster::where('name', $this->cluster_id)->first()->id;
         }
 
-        $this->account->clusters()->attach($this->cluster_id, []);
+        $this->account->clusters()->sync($this->cluster_id, []);
 
         $this->hideModal();
     }

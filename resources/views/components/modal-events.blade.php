@@ -168,20 +168,20 @@
                 </table>
             </div>
 
-            <div class="w-full mt-8 text-right">
+            <div class="w-full mt-8 text-center lg:text-right">
                 <button
                     x-show="update"
-                    class="px-4 py-2 mr-2 text-white bg-red-500 border border-red-700 rounded-lg shadow-sm"
+                    class="px-2 py-1 mr-2 text-xs text-white bg-red-500 border border-red-700 rounded-lg shadow-sm lg:text-md lg:px-4 lg:py-2"
                     x-on:click="deleteEvent(event_object.id)"
                     >
                     Eliminar
                 </button>
-                <button type="button" class="px-4 py-2 mr-2 font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100" @click="openEventModal = !openEventModal">
+                <button type="button" class="px-2 py-1 mr-2 text-xs font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm lg:text-md lg:px-4 lg:py-2 hover:bg-gray-100" @click="openEventModal = !openEventModal">
                     Cancelar
                 </button>
                 <button
                     type="button"
-                    class="px-4 py-2 font-semibold text-white bg-gray-800 border border-gray-700 rounded-lg shadow-sm hover:bg-gray-700"
+                    class="px-2 py-1 text-xs font-semibold text-white bg-gray-800 border border-gray-700 rounded-lg shadow-sm lg:text-md lg:px-4 lg:py-2 hover:bg-gray-700"
                     :class="{'bg-blue-300 text-black border-blue-700': update}"
                     @click="update ? updateEvent(event_object.id) : addEvent()"
                     x-text="button_text"

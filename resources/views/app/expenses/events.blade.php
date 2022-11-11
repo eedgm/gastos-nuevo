@@ -64,25 +64,26 @@
                 <div class="flex flex-wrap border-t border-l">
                     <template x-for="blankday in blankdays">
                         <div
-                            class="w-[14.28%] p-0 text-center border-b border-r lg:px-4 lg:pt-2 h-[160px]"
+                            class="w-[14.28%] p-0 text-center border-b border-r lg:px-2 lg:pt-2 h-[160px]"
                         ></div>
                     </template>
                     <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex">
-                        <div class="w-[14.28%] h-[160px] relative lg:px-4 lg:pt-2 p-1 border-b border-r">
+                        <div class="w-[14.28%] h-[160px] relative lg:px-2 lg:pt-2 p-1 border-b border-r">
                             <div
                                 @click="showEventModal(date)"
                                 x-text="date"
                                 class="inline-flex items-center justify-center w-6 h-6 leading-none text-center transition duration-100 ease-in-out rounded-full cursor-pointer"
                                 :class="{'bg-red-500 text-white': isToday(date) == true, 'text-gray-700 hover:bg-red-200': isToday(date) == false }"
                             ></div>
-                            <div class="mt-1 overflow-y-auto h-[90%] lg:h-[80%]">
+                            <div class="h-[90%] lg:h-[80%] overflow-y-auto scrolling-touch">
                                 <template x-for="event in events.filter(e => new Date(e.date).toDateString() === new Date(year, month, date).toDateString() )">
                                     <div
-                                        class="px-2 py-1 mt-1 overflow-hidden border rounded-lg cursor-pointer"
+                                        class="p-0 mt-4 border rounded-lg cursor-pointer"
                                         :class="event.purpose"
                                         @click="showEventModal(date, event.id)"
                                     >
-                                        <p x-text="event.description" class="text-xs leading-tight truncate lg:text-sm"></p>
+                                        <p x-text="event.account" class="px-2 -mt-[13px] text-xs text-white bg-gray-700 rounded lg:w-fit -py-4 truncate leading-tight "></p>
+                                        <p x-text="event.description" class="pl-3 text-xs leading-tight truncate lg:text-sm"></p>
                                     </div>
                                 </template>
                             </div>
@@ -244,6 +245,7 @@
                             purpose_id: result.events[p].purpose_id,
                             budget: result.events[p].budget,
                             account_id: result.events[p].account,
+                            account: result.events[p].account_name,
                             user_id: result.events[p].user,
                             google_calendar: result.events[p].google_calendar
                         }]
@@ -288,6 +290,7 @@
                         purpose: this.colors[this.event_object.purpose_id],
                         purpose_id: this.event_object.purpose_id,
                         account_id: this.event_object.account_id,
+                        account: this.getAccountName(this.event_object.account_id),
                         budget: this.event_object.budget
                     });
                     console.table(this.events)
@@ -327,6 +330,7 @@
                         purpose: this.colors[this.event_object.purpose_id],
                         purpose_id: this.event_object.purpose_id,
                         account_id: this.event_object.account_id,
+                        account: this.getAccountName(this.event_object.account_id),
                         budget: this.event_object.budget
                     } : x);
 
@@ -540,6 +544,10 @@
                         padL(dt.getMonth()+1)}-${
                         padL(dt.getDate())} ${
                         padL(dt.getHours())}:00:00`
+            },
+
+            getAccountName(id) {
+                return this.accounts[id]
             }
         }
     }

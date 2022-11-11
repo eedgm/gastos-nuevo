@@ -79,6 +79,7 @@ class EventsController extends Controller
             $events['events'][$r->id]['cluster'] = $r->cluster_id;
             $events['events'][$r->id]['assign'] = $r->assign_id;
             $events['events'][$r->id]['account'] = $r->account_id;
+            $events['events'][$r->id]['account_name'] = $r->account->name;
             $events['events'][$r->id]['user'] = $r->user_id;
             $events['events'][$r->id]['google_calendar'] = $r->google_id ? true : false;
 
