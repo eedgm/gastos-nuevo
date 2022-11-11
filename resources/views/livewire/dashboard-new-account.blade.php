@@ -38,6 +38,7 @@
 
                     <x-inputs.group>
                         <x-inputs.select name="type" label="Type" wire:model="account.type">
+                            <option value="null" disabled>Tipo de cuenta</option>
                             <option value="Ahorro">Ahorro</option>
                             <option value="Corriente">Corriente</option>
                         </x-inputs.select>

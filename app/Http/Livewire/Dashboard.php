@@ -14,16 +14,18 @@ class Dashboard extends Component
     public $account;
 
     protected $listeners = [
-        'refreshComponent' => '$refresh'
+        'refreshComponent' => '$refresh',
+        'refreshDashboard' => '$refresh'
     ];
 
     public function mount() {
         $this->user = Auth::user();
+        $this->dispatchBrowserEvent('refresh');
     }
 
     public function render()
     {
-        $accounts = $this->user->accounts;
+        $accounts = $this->user->accounts()->orderBy('id', 'asc')->get();
         return view('livewire.dashboard', compact('accounts'));
     }
 }

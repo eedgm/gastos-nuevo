@@ -23,16 +23,16 @@ class DashboardNewAccount extends Component
         'account.number' => ['required', 'max:255', 'string'],
         'account.type' => ['required', 'in:Ahorro,Corriente'],
         'account.owner' => ['nullable', 'max:255', 'string'],
-        'account.bank_id' => ['required', 'exists:banks,id'],
+        'account.bank_id' => ['required', 'string'],
         'account.description' => ['nullable', 'max:255', 'string'],
     ];
 
     protected $listeners = [
-        'refreshComponent' => '$refresh'
+        'refreshDashboard' => '$refresh',
     ];
 
     public function mount() {
-
+        $this->user = Auth::user();
     }
 
     public function addAccount()
@@ -43,13 +43,15 @@ class DashboardNewAccount extends Component
 
     public function saveAccount()
     {
+        $this->validate();
+
         if (!$this->account->id) {
             $this->authorize('create', Account::class);
             if (!Bank::where('name', $this->account->bank_id)->exists()) {
                 $bank = Bank::create(['name' => $this->account->bank_id]);
                 $bank_id = $bank->id;
             } else {
-                $bank_id = $this->account->bank_id;
+                $bank_id = Bank::where('name', $this->account->bank_id)->first()->id;
             }
             $this->account->bank_id = $bank_id;
         } else {
@@ -60,7 +62,7 @@ class DashboardNewAccount extends Component
 
         $this->account->users()->attach($this->user->id, []);
 
-        $this->emit('refreshComponent');
+        $this->emit('refreshDashboard');
 
         $this->showingModalAccount = false;
     }
