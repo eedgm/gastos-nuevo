@@ -77,6 +77,7 @@ class EventsController extends Controller
             $events['events'][$r->id]['date_to'] = $r->date_to ? $r->date_to->format('Y-m-d H:i:s') : '';
             $events['events'][$r->id]['description'] = $r->description;
             $events['events'][$r->id]['cluster'] = $r->cluster_id;
+            $events['events'][$r->id]['cluster_name'] = $r->cluster->name;
             $events['events'][$r->id]['assign'] = $r->assign_id;
             $events['events'][$r->id]['account'] = $r->account_id;
             $events['events'][$r->id]['account_name'] = $r->account->name;

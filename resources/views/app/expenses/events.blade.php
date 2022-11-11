@@ -78,11 +78,14 @@
                             <div class="h-[90%] lg:h-[80%] overflow-y-auto scrolling-touch">
                                 <template x-for="event in events.filter(e => new Date(e.date).toDateString() === new Date(year, month, date).toDateString() )">
                                     <div
-                                        class="p-0 mt-4 border rounded-lg cursor-pointer"
+                                        class="p-0 mt-2 border rounded-lg cursor-pointer"
                                         :class="event.purpose"
                                         @click="showEventModal(date, event.id)"
                                     >
-                                        <p x-text="event.account" class="px-2 -mt-[13px] text-xs text-white bg-gray-700 rounded lg:w-fit -py-4 truncate leading-tight "></p>
+                                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                                            <p x-text="event.account" class="text-white bg-gradient-to-l from-blue-300 via-blue-600 to-gray-700 rounded truncate col-span-1 lg:col-span-2 -mt-[5px] lg:-mt-[8px] p-0 md:px-1 lg:px-2 text-[7px] lg:text-[9px]"></p>
+                                            <p x-text="event.cluster" class="text-white bg-gradient-to-l from-blue-300 via-silver-600 to-gray-700 rounded truncate col-span-1 lg:col-span-2 -mt-[5px] lg:-mt-[8px] p-0 md:px-1 lg:px-2 text-[7px] lg:text-[9px]"></p>
+                                        </div>
                                         <p x-text="event.description" class="pl-3 text-xs leading-tight truncate lg:text-sm"></p>
                                     </div>
                                 </template>
@@ -240,6 +243,7 @@
                             date_to: result.events[p].date_to,
                             description: result.events[p].description,
                             cluster_id: result.events[p].cluster,
+                            cluster: result.events[p].cluster_name,
                             assign_id: result.events[p].assign,
                             purpose: result.events[p].purpose,
                             purpose_id: result.events[p].purpose_id,
@@ -286,6 +290,7 @@
                         date_to: this.event_object.date_to,
                         description: this.event_object.description,
                         cluster_id: this.event_object.cluster_id,
+                        cluster: this.getClusterName(this.event_object.cluster_id),
                         assign_id: this.event_object.assign_id,
                         purpose: this.colors[this.event_object.purpose_id],
                         purpose_id: this.event_object.purpose_id,
@@ -326,6 +331,7 @@
                         date_to: this.event_object.date_to,
                         description: this.event_object.description,
                         cluster_id: this.event_object.cluster_id,
+                        cluster: this.getClusterName(this.event_object.cluster_id),
                         assign_id: this.event_object.assign_id,
                         purpose: this.colors[this.event_object.purpose_id],
                         purpose_id: this.event_object.purpose_id,
@@ -548,6 +554,9 @@
 
             getAccountName(id) {
                 return this.accounts[id]
+            },
+            getClusterName(id) {
+                return this.clusters[id]
             }
         }
     }
