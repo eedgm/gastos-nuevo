@@ -4,7 +4,7 @@
         wire:click="newEvent"
         >
         <i class="bx bx-plus"></i>
-        <span class="block ml-2 -mt-[5px] text-xs">Evento</span>
+        <span class="block ml-2 -mt-[5px] text-xs lg:text-md">Evento</span>
     </a>
 
     <x-modal wire:model="showingModal">
