@@ -18,10 +18,10 @@
         <livewire:add-new-event />
     </div>
 
-    <div class="items-center block md:flex">
+    <div class="items-center block text-right md:flex">
         @if(Auth::check())
             <div class="relative p-0 text-sm md:mr-2">
-                <a class="text-blue-500 hover:underline hover:text-blue-800" href="{{ route('profile.show') }}">{{ Auth::user()->name }}</a>
+                <a class="text-blue-500 hover:underline hover:text-blue-800" href="{{ route('profile.show') }}">{{ strtok(Auth::user()->name, ' ') }}</a>
             </div>
         @endif
         <form method="POST" action="{{ route('logout') }}">
