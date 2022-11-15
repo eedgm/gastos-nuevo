@@ -17,7 +17,7 @@
                     <x-inputs.group class="col-span-1 lg:col-span-2">
                         <x-inputs.text
                             name="name"
-                            label="Name"
+                            label="Nombre"
                             maxlength="255"
                             placeholder="Name"
                             required
@@ -28,7 +28,7 @@
                     <x-inputs.group>
                         <x-inputs.text
                             name="number"
-                            label="Number"
+                            label="Número de cuenta"
                             maxlength="255"
                             placeholder="Number"
                             required
@@ -47,7 +47,7 @@
                     <x-inputs.group class="col-span-1 lg:col-span-2">
                         <x-inputs.text
                             name="owner"
-                            label="Owner"
+                            label="Dueño"
                             maxlength="255"
                             placeholder="Owner"
                             wire:model="account.owner"
@@ -65,7 +65,7 @@
                     <x-inputs.group class="col-span-1 lg:col-span-4">
                         <x-inputs.textarea
                             name="description"
-                            label="Description"
+                            label="Descripción"
                             wire:model="account.description"
                             >
                         </x-inputs.textarea
