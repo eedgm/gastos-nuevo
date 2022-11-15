@@ -1,10 +1,10 @@
 <div>
     <a
-        class="ml-3 text-2xl leading-5 text-center text-blue-700 cursor-pointer hover:underline"
+        class="ml-2 text-2xl leading-5 text-center text-blue-700 cursor-pointer hover:underline"
         wire:click="newEvent"
         >
-        <i class="bx bx-plus"></i>
-        <span class="block ml-2 -mt-[5px] text-xs lg:text-md">Evento</span>
+        <i class="mt-1 md:mt-0 text-md bx bx-plus"></i>
+        <span class="ml-1 md:ml-2 -mt-[5px] text-xs hidden md:block">Evento</span>
     </a>
 
     <x-modal wire:model="showingModal">

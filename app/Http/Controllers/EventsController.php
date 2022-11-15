@@ -241,4 +241,9 @@ class EventsController extends Controller
 
         echo json_encode($accounts);
     }
+
+    public function list(Request $request)
+    {
+        return;
+    }
 }

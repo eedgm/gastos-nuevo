@@ -55,6 +55,8 @@ Route::prefix('/')
         Route::put('events/executeds/update/{executed}', [EventsController::class, 'updateExecuted'])->name('events.updateExecuted');
         Route::delete('events/executeds/delete/{executed}', [EventsController::class, 'deleteExecuted'])->name('events.deleteExecuted');
 
+        Route::get('events/list', [EventsController::class, 'list'])->name('events.list');
+
         Route::resource('roles', RoleController::class);
         Route::resource('permissions', PermissionController::class);
 
