@@ -1,16 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             @lang('crud.users.index_title')
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <x-partials.card>
-                <div class="mb-5 mt-4">
+                <div class="mt-4 mb-5">
                     <div class="flex flex-wrap justify-between">
-                        <div class="md:w-1/2">
+                        <div class="md:w-8/12">
                             <form>
                                 <div class="flex items-center w-full">
                                     <x-inputs.text
@@ -31,7 +31,12 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="md:w-1/2 text-right">
+                        <div class="text-right md:w-2/12">
+                            @can('create', App\Models\User::class)
+                            <livewire:invite-new-user />
+                            @endcan
+                        </div>
+                        <div class="text-right md:w-2/12">
                             @can('create', App\Models\User::class)
                             <a
                                 href="{{ route('users.create') }}"
@@ -74,11 +79,7 @@
                                     <div
                                         role="group"
                                         aria-label="Row Actions"
-                                        class="
-                                            relative
-                                            inline-flex
-                                            align-middle
-                                        "
+                                        class="relative inline-flex align-middle "
                                     >
                                         @can('update', $user)
                                         <a
@@ -118,11 +119,7 @@
                                                 class="button"
                                             >
                                                 <i
-                                                    class="
-                                                        icon
-                                                        ion-md-trash
-                                                        text-red-600
-                                                    "
+                                                    class="text-red-600 icon ion-md-trash"
                                                 ></i>
                                             </button>
                                         </form>
@@ -141,7 +138,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="3">
-                                    <div class="mt-10 px-4">
+                                    <div class="px-4 mt-10">
                                         {!! $users->render() !!}
                                     </div>
                                 </td>

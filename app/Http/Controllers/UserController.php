@@ -130,4 +130,24 @@ class UserController extends Controller
             ->route('users.index')
             ->withSuccess(__('crud.common.removed'));
     }
+
+    public function register(Request $request, $email, $permission)
+    {
+        return view('app.users.register', compact('email', 'permission'));
+    }
+
+    public function newUserInvited(UserStoreRequest $request, $email, $permission)
+    {
+        $validated = $request->validated();
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        $user = User::create($validated);
+
+        $user->syncRoles($request->roles);
+
+        return redirect()
+            ->route('dashboard')
+            ->withSuccess(__('crud.common.created'));
+    }
 }

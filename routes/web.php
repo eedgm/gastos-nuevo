@@ -33,6 +33,9 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 
+Route::get('/register/user/{email}/{permission}', [UserController::class, 'register'])->name('register');
+Route::post('/register/user/{email}/{permission}', [UserController::class, 'newUserInvited'])->name('newUserInvited');
+
 Route::middleware(['auth:sanctum', 'verified'])
     ->get('/', [EventsController::class, 'dashboard'])
     ->name('dashboard');
