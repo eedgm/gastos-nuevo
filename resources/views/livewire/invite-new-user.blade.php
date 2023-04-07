@@ -1,10 +1,10 @@
 <div class="mt-1 text-right">
     <a
         href="#"
-        class="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-800"
+        class="px-4 py-1.5 text-white bg-sky-500 cursor-pointer rounded-md hover:bg-sky-800"
         wire:click="newInvitation"
         >
-        <i class="text-base bx bx-envelope"></i>
+        <i class="text-base align-middle bx bx-envelope"></i>
         Invite
     </a>
 

@@ -64,6 +64,8 @@ class DashboardNewAccount extends Component
 
         $this->emit('refreshDashboard');
 
+        $this->emit('updateAccount', $this->account->id);
+
         $this->showingModalAccount = false;
     }
 

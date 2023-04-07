@@ -133,6 +133,7 @@
             updateExp: false,
             token: document.getElementsByName("_token")[0].value,
             addGastos: false,
+            total_executed: 0,
             event_object: {
                 id: '',
                 date: '',
@@ -204,6 +205,9 @@
                                 description: result[p].description
                             }]
                         }
+                        this.total_executed = this.executeds.reduce((accumulator, object) => {
+                            return parseFloat(accumulator) + parseFloat(object.cost);
+                        }, 0);
                     })
                     .catch((error) => {
                         console.error('Error:', error);
@@ -397,8 +401,14 @@
                         description: this.expense_object.description
                     });
 
+                    this.total_executed = this.executeds.reduce((accumulator, object) => {
+                        return parseFloat(accumulator) + parseFloat(object.cost);
+                    }, 0);
+
                     const notyf = new Notyf({dismissible: true})
                     this.notify('success', 'Gasto añadido')
+
+                    this.refreshGastos()
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -414,6 +424,9 @@
                 this.expense_object.cost = executeds[0]['cost']
                 this.expense_object.id = executeds[0]['id']
                 this.expense_object.description = executeds[0]['description']
+                this.total_executed = this.executeds.reduce((accumulator, object) => {
+                    return parseFloat(accumulator) + parseFloat(object.cost);
+                }, 0);
             },
 
             updateDetails() {
@@ -452,6 +465,10 @@
 
                     this.executeds = updatedData
 
+                    this.total_executed = this.executeds.reduce((accumulator, object) => {
+                        return parseFloat(accumulator) + parseFloat(object.cost);
+                    }, 0);
+
                     this.refreshGastos()
 
                     this.notify('success', 'Gasto actualizado')
@@ -476,6 +493,9 @@
                 .then((result) => {
                     const updatedData = this.executeds.filter(item => item.id !== id)
                     this.executeds = updatedData
+                    this.total_executed = this.executeds.reduce((accumulator, object) => {
+                        return parseFloat(accumulator) + parseFloat(object.cost);
+                    }, 0);
                     this.notify('error', 'Gasto eliminado')
                 })
                 .catch((error) => {

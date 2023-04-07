@@ -161,6 +161,12 @@
                                 </td>
                             </tr>
                         </template>
+                        <tr class="bg-red-50">
+                            <td class="p-1 text-sm text-center sm:text-md">Total</td>
+                            <td class="p-1 text-sm text-center sm:text-md"  x-text="total_executed">&nbsp;</td>
+                            <td class="p-1 text-sm text-center sm:text-md">&nbsp;</td>
+                            <td class="p-1 text-sm text-center sm:text-md">&nbsp;</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

@@ -97,10 +97,12 @@ class BalanceCalculator extends Component
     public function removeIncome($id)
     {
         Income::where('id', $id)->update(['balance_id' => null]);
+        $this->emit('refreshDashboard');
     }
 
     public function removeExpense($id)
     {
         Expense::where('id', $id)->update(['balance_id' => null]);
+        $this->emit('refreshDashboard');
     }
 }

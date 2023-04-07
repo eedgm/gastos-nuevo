@@ -1,10 +1,4 @@
 <div>
-    <i
-        class="text-xl text-gray-700 cursor-pointer bx bx-cog"
-        wire:click="updateAccount()"
-        >
-    </i>
-
     <x-modal wire:model="showingModalAccount">
         <div class="px-6 py-4 text-left">
             <div class="text-lg font-bold">{{ $modalTitle }}</div>
@@ -69,25 +63,30 @@
                         </x-inputs.group>
                     </div>
                     <div class="grid grid-cols-1 gap-3 md:grid-cols-3">
-                        @can('view-any', App\Models\Assign::class)
-                        <x-partials.card class="mt-5">
-                            <x-slot name="title"> Assigns </x-slot>
+                        @if (!is_null($account))
+                            <div class="text-lg text-black font-ital">
+                                Para continuar es necesario Agregar las siguietes características a esta cuenta
+                            </div>
+                            @can('view-any', App\Models\Assign::class)
+                            <x-partials.card class="mt-5">
+                                <x-slot name="title"> Assigns </x-slot>
 
-                            <livewire:account-assigns-detail :account="$account" />
-                        </x-partials.card>
-                        @endcan @can('view-any', App\Models\Purpose::class)
-                        <x-partials.card class="mt-5">
-                            <x-slot name="title"> Purposes </x-slot>
+                                <livewire:account-assigns-detail :account="$account" />
+                            </x-partials.card>
+                            @endcan @can('view-any', App\Models\Purpose::class)
+                            <x-partials.card class="mt-5">
+                                <x-slot name="title"> Purposes </x-slot>
 
-                            <livewire:account-purposes-detail :account="$account" />
-                        </x-partials.card>
-                        @endcan @can('view-any', App\Models\Cluster::class)
-                        <x-partials.card class="mt-5">
-                            <x-slot name="title"> Clusters </x-slot>
+                                <livewire:account-purposes-detail :account="$account" />
+                            </x-partials.card>
+                            @endcan @can('view-any', App\Models\Cluster::class)
+                            <x-partials.card class="mt-5">
+                                <x-slot name="title"> Clusters </x-slot>
 
-                            <livewire:account-clusters-detail :account="$account" />
-                        </x-partials.card>
-                        @endcan
+                                <livewire:account-clusters-detail :account="$account" />
+                            </x-partials.card>
+                            @endcan
+                        @endif
                     </div>
                 </div>
         </div>
@@ -105,7 +104,7 @@
             <button
                 type="button"
                 class="button button-primary"
-                wire:click="updateAccount"
+                wire:click="$toggle('showingModalAccount')"
             >
                 <i class="mr-1 bx bx-edit-alt"></i>
                 @lang('crud.common.update')

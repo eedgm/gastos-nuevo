@@ -2,6 +2,8 @@
 
     <livewire:dashboard-new-account />
 
+    <livewire:general-update-account />
+
     @foreach ($accounts as $account)
         @php $texpenses = $tincomes = 0; @endphp
         <x-partials.card class="mt-5">
@@ -9,30 +11,32 @@
                 {{ $account->name }}
             </x-slot>
             <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6">
-                <div class="">
+                <div class="col-span-1 md:col-span-2 lg:col-span-2">
                     <livewire:new-income :account="$account" :key="$account->id" />
+                    <livewire:new-balance :account="$account" :key="$account->id" />
                 </div>
-                <div class="col-span-1 text-right -mt-7 md:mt-0 md:col-span-3 lg:col-span-5">
-                    <livewire:dashboard-update-account :account="$account" :key="$account->id" />
+                <div class="col-span-1 text-right -mt-7 md:mt-0 md:col-span-2 lg:col-span-4">
+                    <livewire:dashboard-update-account :account="$account" :key="'update-accont-'.$account->id" />
                 </div>
             </div>
             <div class="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-                @foreach ($account->balances()->where('reported', true)->orderBy('id', 'desc')->limit(1)->get() as $balance)
-                    @if ($balance->reported)
-                        <x-badge
-                            title="Balance reportado {{ $balance->date->format('M d') }}"
-                            total="{{ $balance->total }}"
-                            background="bg-gray-700"
-                            icon="bx-dollar-circle"
-                        />
-                    @endif
-                @endforeach
+                @php $reported = $account->balances()->where('reported', true)->orderBy('id', 'desc')->first() @endphp
+                @if ($reported)
+                    <x-badge
+                        title="Balance reportado {{ $reported->date->format('M d') }}"
+                        total="{{ $reported->total }}"
+                        background="bg-gray-700"
+                        icon="bx-dollar-circle"
+                    />
+                @else
+                    <x-badge title="Sin reporte" total="0" background="bg-gray-700" icon="bx-dollar-circle" />
+                @endif
 
                 <x-badge
                     title="Presupuesto Actual"
                     total="{{ $account->expenses()->where('balance_id', null)->sum('budget') }}"
-                    background="bg-green-700"
-                    icon="bx-dollar"
+                    background="bg-sky-700"
+                    icon="bxs-badge-dollar"
                 />
 
                 <x-badge
