@@ -302,9 +302,7 @@
                                 description: result[p].description
                             }]
                         }
-                        this.total_executed = this.executeds.reduce((accumulator, object) => {
-                            return parseFloat(accumulator) + parseFloat(object.cost);
-                        }, 0);
+                        this.sumExecuteds()
                     })
                     .catch((error) => {
                         console.error('Error:', error);
@@ -339,9 +337,7 @@
                             description: this.expense_object.description
                         });
 
-                        this.total_executed = this.executeds.reduce((accumulator, object) => {
-                            return parseFloat(accumulator) + parseFloat(object.cost);
-                        }, 0);
+                        this.sumExecuteds()
 
                         this.filterExpenses()
 
@@ -364,9 +360,7 @@
                     this.expense_object.cost = executeds[0]['cost']
                     this.expense_object.id = executeds[0]['id']
                     this.expense_object.description = executeds[0]['description']
-                    this.total_executed = this.executeds.reduce((accumulator, object) => {
-                        return parseFloat(accumulator) + parseFloat(object.cost);
-                    }, 0);
+                    this.sumExecuteds()
                 },
 
                 updateExecuteds(id) {
@@ -389,9 +383,7 @@
 
                         this.executeds = updatedData
 
-                        this.total_executed = this.executeds.reduce((accumulator, object) => {
-                            return parseFloat(accumulator) + parseFloat(object.cost);
-                        }, 0);
+                        this.sumExecuteds()
 
                         this.refreshGastos()
 
@@ -419,15 +411,19 @@
                     .then((result) => {
                         const updatedData = this.executeds.filter(item => item.id !== id)
                         this.executeds = updatedData
-                        this.total_executed = this.executeds.reduce((accumulator, object) => {
-                            return parseFloat(accumulator) + parseFloat(object.cost);
-                        }, 0);
+                        this.sumExecuteds()
                         this.notify('error', 'Gasto eliminado')
                     })
                     .catch((error) => {
                         console.error('Error:', error);
                     });
 
+                },
+
+                sumExecuteds() {
+                    this.total_executed = this.executeds.reduce((accumulator, object) => {
+                        return parseFloat(accumulator) + parseFloat(object.cost);
+                    }, 0).toFixed(2);
                 },
 
                 sort(col) {
