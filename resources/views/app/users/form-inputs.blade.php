@@ -40,7 +40,6 @@
             :value="old('google_calendar_id', ($editing ? $user->google_calendar_id : ''))"
             maxlength="255"
             placeholder="Google Calendar ID"
-            required
         ></x-inputs.text>
     </x-inputs.group>
 
