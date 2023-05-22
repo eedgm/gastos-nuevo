@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Mail\sendInvitation;
+use App\Models\InvitationUser;
 use Illuminate\Support\Facades\Mail;
 
 class InviteNewUser extends Component
@@ -29,8 +30,13 @@ class InviteNewUser extends Component
             'email' => $this->email,
             'permission' => $this->permission
         ];
+
+        InvitationUser::create(['email' => $this->email, 'hash' => $this->permission]);
+
         Mail::to($this->email)->send(new sendInvitation($details));
         // $this->showingModal = false;
+
+        session()->flash('message', 'Invitación enviada!');
     }
 
     public function render()

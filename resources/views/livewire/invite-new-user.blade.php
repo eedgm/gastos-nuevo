@@ -12,6 +12,12 @@
         <div class="px-6 py-4 text-left">
             <div class="text-xl font-bold border-b border-gray-200">{{ $modalTitle }}</div>
 
+            @if (session()->has('message'))
+                <div class="p-3 mt-2 text-lg italic text-white bg-green-500 shadow-md rounded-xl">
+                    {{ session('message') }}
+                </div>
+            @endif
+
             <div class="mt-5">
                 <div class="grid grid-cols-1 lg:grid-cols-4">
                     <x-inputs.group class="col-span-1 lg:col-span-2">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\InvitationUser;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserStoreRequest;
@@ -133,6 +134,10 @@ class UserController extends Controller
 
     public function register(Request $request, $email, $permission)
     {
+        $invitation = InvitationUser::where('email', $email)->first();
+        $invitation->view_link = true;
+        $invitation->save();
+
         return view('app.users.register', compact('email', 'permission'));
     }
 
@@ -143,6 +148,10 @@ class UserController extends Controller
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
+
+        $invitation = InvitationUser::where('email', $email)->first();
+        $invitation->user_created = true;
+        $invitation->save();
 
         $user->syncRoles($request->roles);
 
